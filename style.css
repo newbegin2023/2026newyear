@@ -1,0 +1,473 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Ma Shan Zheng", "Microsoft YaHei", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #fff8f8, #ffeaea);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 音乐播放按钮样式 */
+.music-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fcd34d, #fbbf24);
+    color: #c51616;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+    transition: all 0.3s ease;
+}
+
+.music-btn.playing {
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+}
+
+.music-btn.paused {
+    background: linear-gradient(135deg, #fecaca, #fca5a5);
+    animation: none;
+}
+
+/* 主界面样式 */
+.main-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fff1f1, #ffeded, #fff1f1);
+    z-index: 100;
+    color: #c51616;
+    text-align: center;
+    padding: 20px;
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.main-page.closing {
+    clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+    opacity: 0;
+}
+
+.main-page h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #c51616;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+    font-family: "KaiTi", "Microsoft YaHei", sans-serif;
+}
+
+/* 倒计时样式 */
+.countdown {
+    display: flex;
+    gap: 15px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.countdown-item {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px 15px;
+    min-width: 80px;
+    backdrop-filter: blur(10px);
+    border: 1px solid #fcd34d;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.countdown-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #c51616;
+}
+
+.countdown-text {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    color: #a81515;
+}
+
+.enter-btn {
+    background: linear-gradient(135deg, #fcd34d, #fbbf24);
+    color: #c51616;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
+    transition: all 0.3s ease;
+}
+
+.enter-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+}
+
+/* 贺卡容器 */
+.card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px 30px;
+    box-shadow: 0 12px 40px rgba(220, 38, 38, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 95%;
+    position: relative;
+    z-index: 10;
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+    opacity: 0;
+    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+    display: none;
+}
+
+.card.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 1;
+}
+
+.card h1 {
+    color: #DC2626;
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    font-family: "KaiTi", "Microsoft YaHei", sans-serif;
+}
+
+.card h2 {
+    color: #ea580c;
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+/* 心愿输入框 */
+#wishInput {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #fecaca;
+    border-radius: 12px;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    resize: none;
+    outline: none;
+    background: #fffdfa;
+    min-height: 100px;
+}
+
+#wishInput:focus {
+    border-color: #DC2626;
+    box-shadow: 0 0 8px rgba(220, 38, 38, 0.1);
+}
+
+/* 按钮样式 */
+.btn {
+    background: linear-gradient(135deg, #DC2626, #b91c1c);
+    color: #fff;
+    border: none;
+    padding: 12px 36px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 5px;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* 刮刮乐核心容器 */
+.scratch-box {
+    width: 100%;
+    height: 180px;
+    margin: 20px auto 30px;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #fecaca;
+}
+
+/* 底层祝福语 */
+.scratch-text {
+    width: 100%;
+    height: 100%;
+    background: #fff7ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-size: 1.4rem;
+    color: #DC2626;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Canvas遮罩层 */
+#scratchMask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+}
+
+/* 事件触发层 */
+.scratch-trigger {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    cursor: grab;
+}
+
+.scratch-trigger:active {
+    cursor: grabbing;
+}
+
+/* 提示文字 */
+.tip-text {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+/* 结果展示区 */
+.result-wrap {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 12px;
+    background: #fff7ed;
+    border: 2px solid #fecaca;
+}
+
+.result-text {
+    color: #ea580c;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.result-wish {
+    color: #DC2626;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+/* 页面切换 */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 烟花装饰 */
+.firework {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.firework.show {
+    opacity: 1;
+}
+
+/* 幸运抽签功能 */
+.lucky-draw {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 12px;
+    background: #fff7ed;
+    border: 2px solid #fecaca;
+}
+
+.lucky-btn {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    color: #DC2626;
+    margin-top: 10px;
+}
+
+/* 彩色纸屑效果 */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #DC2626;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 15;
+}
+
+/* 底部提示 */
+.powered-by {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    color: #c51616;
+    font-size: 0.9rem;
+    cursor: pointer;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.powered-by:hover {
+    transform: scale(1.1);
+    color: #fbbf24;
+}
+
+/* 祝福诗弹窗 */
+.poem-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    backdrop-filter: blur(5px);
+}
+
+.poem-modal.show {
+    display: flex;
+}
+
+.poem-content {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 90%;
+    width: 500px;
+    text-align: center;
+    border: 3px solid #fcd34d;
+}
+
+.poem-title {
+    font-size: 1.8rem;
+    color: #c51616;
+    margin-bottom: 20px;
+    font-family: "KaiTi", "Microsoft YaHei", sans-serif;
+}
+
+.poem-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #a81515;
+    margin-bottom: 20px;
+    font-family: "KaiTi", "Microsoft YaHei", sans-serif;
+    white-space: pre-line;
+}
+
+.poem-footer {
+    font-size: 1rem;
+    color: #ea580c;
+    line-height: 1.6;
+}
+
+.close-modal {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #fcd34d, #fbbf24);
+    color: #c51616;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+/* 响应式适配 */
+@media (max-width: 480px) {
+    .main-page h1 { font-size: 2rem; }
+    .countdown-item { min-width: 60px; padding: 15px 10px; }
+    .countdown-number { font-size: 1.8rem; }
+    .card h1 { font-size: 1.8rem; }
+    .card h2 { font-size: 1.1rem; }
+    .scratch-box { height: 160px; }
+    .scratch-text { font-size: 1.2rem; }
+    .btn { padding: 10px 28px; font-size: 1rem; }
+    .enter-btn { padding: 12px 30px; font-size: 1.1rem; }
+    .music-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        top: 15px;
+        right: 15px;
+    }
+    .powered-by {
+        font-size: 0.8rem;
+        bottom: 10px;
+        right: 10px;
+    }
+    .poem-text {
+        font-size: 1rem;
+    }
+    .poem-title {
+        font-size: 1.5rem;
+    }
+}

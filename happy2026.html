@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2026春节快乐</title>
+    <!-- 引入外部CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- 引入第三方字体/图标 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/webfonts/1.0.0/css/ma-shan-zheng.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 音乐播放按钮 -->
+    <button class="music-btn" id="musicBtn"><i class="fas fa-music"></i></button>
+    
+    <!-- 音频元素 -->
+    <audio id="backgroundMusic" loop>
+        <source src="abc.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 主界面 -->
+    <div class="main-page" id="mainPage">
+        <h1> 岁华新辞·新年快樂<br>(0^ω^0) </h1>
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">00</div>
+                <div class="countdown-text">天</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">00</div>
+                <div class="countdown-text">时</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">00</div>
+                <div class="countdown-text">分</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">00</div>
+                <div class="countdown-text">秒</div>
+            </div>
+        </div>
+        <p id="countdownTip">距离2026年春节（2月17日0点）还有</p>
+        <button class="enter-btn" id="enterBtn">进入新春刮福卡 🎇</button>
+    </div>
+
+    <!-- 烟花画布 -->
+    <canvas class="firework" id="fireworkCanvas"></canvas>
+
+    <!-- 贺卡主体 -->
+    <div class="card" id="card">
+        <!-- 第一步：输入心愿 -->
+        <div class="page active" id="page1">
+            <h1> 辞旧岁·岁稔年丰</h1>
+            <h2>写下你的新年心愿，解锁专属祝福</h2>
+            <textarea id="wishInput" placeholder="愿新年，胜旧年，写下你的小愿望吧..."></textarea>
+            
+            <!-- 幸运抽签功能 -->
+            <div class="lucky-draw">
+                <p>🎲 抽个新年好运签</p>
+                <button class="btn lucky-btn" id="luckyBtn">点击抽签</button>
+                <p id="luckyResult" style="margin-top:10px;color:#DC2626;font-weight:bold;"></p>
+            </div>
+            
+            <button class="btn" id="goScratchBtn">提交心愿，开始刮福</button>
+        </div>
+
+        <!-- 第二步：刮刮乐 -->
+        <div class="page" id="page2">
+            <h1>刮开你的马年祝福🧧</h1>
+            <p class="tip-text">按住鼠标/手指拖动刮开涂层，解锁新年好运</p>
+            <div class="scratch-box">
+                <div class="scratch-text" id="blessingText"></div>
+                <canvas id="scratchMask"></canvas>
+                <div class="scratch-trigger" id="scratchTrigger"></div>
+            </div>
+            <button class="btn" id="scratchAllBtn">一键刮开</button>
+        </div>
+
+        <!-- 第三步：结果展示 -->
+        <div class="page" id="page3">
+            <h1>🎉 迎新春·得偿所愿 🎉</h1>
+            <div class="result-wrap">
+                <div class="result-text" id="showBlessing"></div>
+                <div class="result-wish" id="showWish"></div>
+            </div>
+            <button class="btn" id="resetBtn">再来一次</button>
+            <button class="btn" id="backMainBtn" style="margin-top:10px;">返回主界面</button>
+        </div>
+    </div>
+
+    <!-- 底部提示 -->
+    <div class="powered-by" id="poweredBy">⭐powered by jiale⭐</div>
+
+    <!-- 祝福诗弹窗 -->
+    <div class="poem-modal" id="poemModal">
+        <div class="poem-content">
+            <h3 class="poem-title">⭐马到成功⭐</h3>
+            <div class="poem-text">
+明霄初升海潮平，漠阳江畔月轮明，
+骏马踏云追旭日，春风得意马蹄轻。
+
+万家灯火照团圆，笑语盈门暖千庭，
+寒冬渐去东风起，岁岁安康又马年。
+
+今夜烟花如星绽，明朝生气满城萦，
+辞旧迎新同祝愿，马到功成万事兴。
+            </div>
+            <div class="poem-footer">
+                祝你新的一年前程似锦，得偿所愿，平安喜乐！<br>
+                万象更新，再度启航！
+            </div>
+            <button class="close-modal" id="closeModal">关闭</button>
+        </div>
+    </div>
+
+    <!-- 引入外部JS（放在body末尾，确保DOM加载完成） -->
+    <script src="script.js"></script>
+</body>
+</html>
